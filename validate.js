@@ -14,74 +14,79 @@ var ZSchema = require("z-schema");
 /**
  * Manage creation of schema validators and cache for calls.
  */
-var SchemaValidator = function(logger) {
-  
+var ReplayValidator = function(logger) {
+  this.logger = logger || console;
   this.validators = {};
   this.factories = {};
 };
 
-/**
- * Validate data against a specific schema version.
- * @param {integer} version - The version of the schema against which to
- *   validate the data.
- * @param {*} data - The data to validate.
- * @return {[type]} [description]
- */
-SchemaValidator.prototype.validate = function(version, data) {
-  // body...
+// Get version for data.
+ReplayValidator.prototype.getVersion = function(data) {
+  if (!data.hasOwnProperty("version")) {
+    return 1;
+  } else {
+    return data.version;
+  }
 };
+
+/**
+ * @callback ValidationCallback
+ * @param {boolean} result - Whether the replay was valid.
+ */
+/**
+ * Validate data.
+ * @param {*} data - The data to validate.
+ * @param {function} callback - The callback for the result of
+ *   validation.
+ */
+ReplayValidator.prototype.validate = function(data, callback) {
+  // Get replay version.
+  var version = this.getVersion(data);
+  // Schema validation.
+  
+  // Requirements validation.
+};
+
 /**
  * Get the schema validator for a specific version
  * @param {[type]} version [description]
  * @return {[type]} [description]
  */
-SchemaValidators.prototype.getVersion = function(version) {
+ReplayValidator.prototype.getVersion = function(version) {
   if (!this.validators.hasOwnProperty(version)) {
     this.validators[version] = this.factories[version].call(null);
   }
   return this.validators[version];
 };
 
-// Add function for creating a schema validator for the specified version.
-SchemaValidators.prototype.addSchemaValidator = function(version, fn) {
-  this.factories[version] = fn;
+// Add information for validation
+ReplayValidator.prototype.addVersion = function(version, data) {
+  
 };
 
-var schemas = new SchemaValidators();
-
-schemas.addSchemaValidator(1, function() {
-  // Create validator.
-  var schema_dir = "./schemas/1/";
-  var validator = new ZSchema();
-  var schemas = ['data.json', 'player.json', 'definitions.json'];
-  schemas.forEach(function(schema) {
-    validator.setRemoteReference(schema,
-      require(schema_dir + schema));
-  });
-  return validator;
-});
-
-schemas.addSchemaValidator(3, function() {
-  var schema_dir = "./schemas/2/";
-  var validator = new ZSchema();
-  var schemas = ['data.json', 'db_info.json', 'definitions.json',
-    'info.json', 'player.json', 'replay.json'];
-  schemas.forEach(function(schema) {
-  validator.setRemoteReference(schema,
-    require(schema_dir + schema));
-  });
-  return validator;
-});
+var validator = new ReplayValidator();
 
 /**
  * @typedef ValidatorOptions
  * @type {object}
  * @property {boolean} printErrors - Whether errors should be printed.
  */
-// Functions that takes replay data and returns true indicating replay
-// is valid or false otherwise.
-var Validators = {
-  "1": function(data, options) {
+
+validator.addVersion(1, {
+  // Function to return schema validator.
+  schemaValidator: function() {
+    // Create validator.
+    var schema_dir = "./schemas/1/";
+    var validator = new ZSchema();
+    var schemas = ['data.json', 'player.json', 'definitions.json'];
+    schemas.forEach(function(schema) {
+      validator.setRemoteReference(schema,
+        require(schema_dir + schema));
+    });
+    return validator;
+  },
+  // Function that takes data and options.
+  checker: function(data, logger) {
     function log_error(msg) {
       if (options.printErrors) {
         console.log(msg);
@@ -118,8 +123,22 @@ var Validators = {
       return false;
     }
     return true;
+  }
+});
+
+validator.addVersion(3, {
+  schemaValidator: function() {
+    var schema_dir = "./schemas/2/";
+    var validator = new ZSchema();
+    var schemas = ['data.json', 'db_info.json', 'definitions.json',
+      'info.json', 'player.json', 'replay.json'];
+    schemas.forEach(function(schema) {
+    validator.setRemoteReference(schema,
+      require(schema_dir + schema));
+    });
+    return validator;
   },
-  "3": function(data, options) {
+  checker: function(data, options) {
     function log_error(msg) {
       if (options.printErrors) {
         console.log(msg);
@@ -156,7 +175,7 @@ var Validators = {
     
     return true;
   }
-};
+});
 
 /**
  * Validate a replay against requirements.
