@@ -138,15 +138,6 @@
         "y"
       ],
       "additionalProperties": false
-    },
-    "coordinate": {
-      "type": "object",
-      "title": "Location.",
-      "description": "Represents a location.",
-      "properties": {
-        "x": { "type": "number" },
-        "y": { "type": "number" }
-      }
     }
   },
   "properties": {
@@ -154,12 +145,6 @@
       "id": "bombs",
       "type": "array",
       "items": { "$ref": "#/definitions/bombInstance" }
-    },
-    "camera": {
-      "type": "array",
-      "title": "Camera Location.",
-      "description": "Location of the camera center in world coordinates for each frame. Only if spectating.",
-      "items": { "$ref": "#/definitions/coordinate" }
     },
     "chat": {
       "type": "array",

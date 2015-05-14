@@ -18,13 +18,8 @@
     },
     "player": {
       "title": "Player ID.",
-      "description": "The id of the player recording, if not spectating.",
+      "description": "The id of the player recording.",
       "type": "integer"
-    },
-    "spectating": {
-      "title": "Spectating.",
-      "description": "Whether the player was spectating.",
-      "type": "boolean"
     },
     "teamNames": {
       "properties": {
@@ -34,7 +29,8 @@
       "required": [
         "1",
         "2"
-      ]
+      ],
+      "additionalProperties": false
     },
     "dateRecorded": { "$ref": "definitions.json#/time" }
   },
@@ -42,7 +38,7 @@
     "mapName",
     "fps",
     "name",
-    "spectating",
+    "player",
     "dateRecorded",
     "teamNames"
   ],
