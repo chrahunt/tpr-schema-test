@@ -91,7 +91,7 @@
             "description": "The type of flag held by a player in a specific frame, may be 1, 2, 3 for red, blue, yellow.",
             "type": ["number", "string"]
           },
-          { "type": "null" }
+          { "$ref": "#/definitions/playerArrayItem" }
         ]
       }
     },
@@ -101,7 +101,7 @@
       "items": {
         "anyOf": [
           { "$ref": "#/definitions/flair" },
-          { "type": "null" }
+          { "$ref": "#/definitions/playerArrayItem" }
         ]
       }
     },
@@ -117,12 +117,17 @@
     "name": {
       "description": "The visible name for the player over each frame in the replay.",
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "anyOf": [
+          { "type": "string" },
+          { "$ref": "#/definitions/playerArrayItem" }
+        ]
+      }
     },
     "tagpro": {
       "description": "Whether the player had the tagpro powerup.",
       "type": "array",
-      "items": { "type": "boolean" }
+      "items": { "$ref": "#/definitions/playerArrayItem/bool" }
     },
     "team": {
       "description": "The team of the player during each frame of the replay.",
@@ -130,7 +135,7 @@
       "items": {
         "anyOf": [
           { "$ref": "definitions.json#/team" },
-          { "type": "null" }
+          { "$ref": "#/definitions/playerArrayItem" }
         ]
       }
     },

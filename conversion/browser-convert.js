@@ -1,7 +1,11 @@
 // Holds all the main conversion functions.
-
+/**
+ * Exposes the convertReplay function, which handles converting
+ * replays.
+ */
 (function(window) {
 
+// Holds the replay migration functions.
 var conversion = new Migrations();
 
 // Return the first value in the array that satisfies the given function.
@@ -103,11 +107,15 @@ var Convert = {
   chat: function(data) {
     // Handle incomplete chat objects from TagPro 3.0 bug.
     if (!data.hasOwnProperty('removeAt')) return null;
+    // Ignore sound messages that were populated into chat.
+    if (data.hasOwnProperty('s') && data.hasOwnProperty('v')) return null;
     return {
       from: data.from,
       message: data.message,
       to: data.to,
-      time: data.removeAt - 30000
+      time: data.removeAt - 30000,
+      color: data.c,
+      mod: data.mod
     };
   },
   // Takes the player id and player object.
@@ -238,8 +246,25 @@ conversion.add(1, 2, function(data, callback) {
 
 // Current replay version.
 var CURRENT = 2;
-// Convert replay to most recent version.
-// Needs to be async due to validation.
+/**
+ * Callback used when converting a replay.
+ * @callback ConversionCallback
+ * @param {Error} err - Truthy if an error occurred during conversion.
+ */
+/**
+ * @typedef {ReplayData}
+ * @property {Replay} data - The actual Replay, as specified in the
+ *   replay schema.
+ * @property {string} name - The name of the replay. This can correspond
+ *   to the filename of an imported replay or the primary key of a
+ *   database-stored replay.
+ */
+/**
+ * Convert a replay object.
+ * @param {[type]} data [description]
+ * @param {Function} callback [description]
+ * @return {[type]} [description]
+ */
 window.convertReplay = function(data, callback) {
   // Get replay version.
   var version = getReplayVersion(data.data);

@@ -25,38 +25,56 @@
       "additionalProperties": false
     },
     "chatInstance": {
-      "type": "object",
       "title": "Chat Message.",
       "description": "Information about a message sent to the player via chat.",
-      "properties": {
-        "from": {
-          "type": ["string", "integer", "null"]
+      "oneOf": [{
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": ["string", "integer", "null"]
+            },
+            "removeAt": {
+              "description": "The time at which to remove the chat, 30s after it was sent. May not be present if replay was made while 3.0 bug was present.",
+              "$ref": "#/definitions/epochTime"
+            },
+            "to": {
+              "id": "to",
+              "type": "string",
+              "enum": ["all", "team", "group"]
+            },
+            "message": { "type": "string" },
+            "c": {
+              "description": "Optional text color.",
+              "type": "string"
+            },
+            "mod": {
+              "description": "Optional mod parameter.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "from",
+            "to",
+            "message"
+          ],
+          "additionalProperties": false
         },
-        "removeAt": {
-          "description": "The time at which to remove the chat, 30s after it was sent. May not be present if replay was made while 3.0 bug was present.",
-          "$ref": "#/definitions/epochTime"
-        },
-        "to": {
-          "id": "to",
-          "type": "string",
-          "enum": ["all", "team", "group"]
-        },
-        "message": { "type": "string" },
-        "c": {
-          "description": "Optional text color.",
-          "type": "string"
-        },
-        "mod": {
-          "description": "Optional mod parameter.",
-          "type": "boolean"
+        {
+          "description": "Extraneous sound packet seen in some old replays.",
+          "type": "object",
+          "properties": {
+            "s": { "type": "string" },
+            "v": { "type": "number" },
+            "removeAt": { "type": "integer" }
+          },
+          "required": [
+            "s",
+            "v",
+            "removeAt"
+          ],
+          "additionalProperties": false
         }
-      },
-      "required": [
-        "from",
-        "to",
-        "message"
-      ],
-      "additionalProperties": false
+      ]
     },
     "spawn": {
       "type": "object",
