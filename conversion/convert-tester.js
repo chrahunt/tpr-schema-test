@@ -1,6 +1,5 @@
 (function() {
 
-
 var requests = [], // Track requests.
     initiated = false,
     stopped = false,
