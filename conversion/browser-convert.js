@@ -109,14 +109,15 @@ var Convert = {
     if (!data.hasOwnProperty('removeAt')) return null;
     // Ignore sound messages that were populated into chat.
     if (data.hasOwnProperty('s') && data.hasOwnProperty('v')) return null;
-    return {
+    var obj = {
       from: data.from,
       message: data.message,
       to: data.to,
       time: data.removeAt - 30000,
-      color: data.c,
-      mod: data.mod
     };
+    if (data.hasOwnProperty("c")) obj.color = data.c;
+    if (data.hasOwnProperty("mod")) obj.mod = data.mod;
+    return obj;
   },
   // Takes the player id and player object.
   player: function(id, data) {
@@ -246,6 +247,7 @@ conversion.add(1, 2, function(data, callback) {
 
 // Current replay version.
 var CURRENT = 2;
+
 /**
  * Callback used when converting a replay.
  * @callback ConversionCallback

@@ -1,8 +1,36 @@
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Validator Test Page</title>
+  <title>Conversion Test Page</title>
+  <style type="text/css">
+    #results {
+      display: none;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <div id="info">
+      <strong>Status:</strong> <span id="status">Idle</span>
+    </div>
+    <div id="controls">
+      <button id="start">Start Tests</button>
+      <button id="stop" disabled>Stop Tests</button>
+    </div>
+    <div>
+      <div id="no-results">
+        <p>No results available.</p>
+      </div>
+      <div id="results">
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
   <script type="text/javascript" src="../lib/jquery.js"></script>
   <script type="text/javascript" src="../lib/migrations.js"></script>
   <script type="text/javascript" src="../lib/barrier.js"></script>
