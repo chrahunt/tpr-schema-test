@@ -124,40 +124,6 @@ validator.addVersion(1, {
   schemaValidator: function(callback) {
     loadSchema("../schemas/1/", "data.json",
       ["data.json", "player.json", "definitions.json"], callback);
-    /*
-    var validator = imjv,
-        loaded = {},
-        main = "data.json",
-        mainData,
-        loadBarrier = new Barrier();
-    // Set remote references after all relevant schemas have been
-    // loaded.
-    loadBarrier.onComplete(function() {
-      var imjvValidate = validator(mainData, {schemas: loaded});
-      var validate = function(data, logger) {
-        var valid = imjvValidate(data);
-        if (!valid) {
-          logger.log(validator.errors);
-          return false;
-        }
-        return true;
-      };
-      callback(validate);
-    });
-    // Create validator.
-    var schema_dir = "../schemas/1/";
-    var names = ['data.json', 'player.json', 'definitions.json'];
-    names.forEach(function(name) {
-      var id = loadBarrier.start();
-      $.getJSON(schema_dir + name, function(data) {
-        if (name == main) {
-          mainData = data;
-        }
-        loaded[name] = data;
-        loadBarrier.stop(id);
-      });
-    });
-*/
   },
   // Function that checks data against other requirements. Takes the data
   // and a logger.
@@ -190,45 +156,6 @@ validator.addVersion(2, {
   schemaValidator: function(callback) {
     loadSchema("../schemas/2/", "replay.json",
       ['data.json', 'db_info.json', 'definitions.json', 'info.json', 'player.json', 'replay.json'], callback);
-    /*
-    var validator = new ZSchema(),
-        loaded = [],
-        main = "replay.json",
-        mainData,
-        loadBarrier = new Barrier();
-    // Set remote references after all relevant schemas have been
-    // loaded.
-    loadBarrier.onComplete(function() {
-      loaded.forEach(function(schema) {
-        validator.setRemoteReference(schema.name, schema.data);
-      });
-      var validate = function(data, logger) {
-        var valid = validator.validate(data, mainData);
-        if (!valid) {
-          logger.log(validator.getLastErrors());
-          return false;
-        }
-        return true;
-      };
-      callback(validate);
-    });
-    // Create validator.
-    var schema_dir = "../schemas/2/";
-    var names = ['data.json', 'db_info.json', 'definitions.json',
-      'info.json', 'player.json', 'replay.json'];
-    names.forEach(function(name) {
-      var id = loadBarrier.start();
-      $.getJSON(schema_dir + name, function(data) {
-        if (name == main) {
-          mainData = data;
-        }
-        loaded.push({
-          name: name,
-          data: data
-        });
-        loadBarrier.stop(id);
-      });
-    });*/
   },
   checker: function(data, logger) {
     // No players that were not present should be in the data.

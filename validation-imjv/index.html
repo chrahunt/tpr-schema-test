@@ -1,9 +1,45 @@
 <html>
 <head>
   <title>Validator Test Page</title>
+  <style type="text/css">
+  #results {
+    display: none;
+  }
+  #replay-input {
+    display: none;
+  }
+  .row {
+    margin-bottom: 10px;
+  }
+  #message {
+    text-align: center;
+    font-weight: bold;
+  }
+  </style>
 </head>
 <body>
-  <p>Testing validation with is-my-json-valid</p>
+  <div class="container">
+    <div class="row">
+      <p>Testing validation with is-my-json-valid</p>
+    </div>
+    <div class="row">
+      <button id="replay-input-clicker">Upload</button>
+      <input type="file" id="replay-input" multiple>
+    </div>
+    <div class="row">
+      <button id="validate" disabled>Validate</button><button id="reset" disabled>Reset</button>
+    </div>
+    <div id="message"></div>
+    <div id="no-results">
+      <p>You need to upload some replays!</p>
+    </div>
+    <div id="results">
+      <table>
+        <tr><th>Name</th><th>Status</th></tr>
+      </table>
+    </div>
+  </div>
+
   <script type="text/javascript" src="../lib/jquery.js"></script>
   <script type="text/javascript" src="../lib/barrier.js"></script>
   <script type="text/javascript" src="../lib/imjv-browser.js"></script>
