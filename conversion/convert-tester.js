@@ -70,7 +70,7 @@ $("#start").click(function() {
     if (stopped) return;
     set_status("Replays retrieved.");
     // Limit number of replays for debugging.
-    replays = replays.slice(0, 10);
+    replays = replays.slice(0, 1);
     set_status("Converting replays.");
     replays.forEach(function(name, i) {
       var id = name.replace(/\.json|\.txt/, '');

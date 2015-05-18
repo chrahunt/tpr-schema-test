@@ -14,7 +14,10 @@
           "enum": [1, 2, 3]
         },
         "x": { "type": "number" },
-        "y": { "type": "number" }
+        "y": { "type": "number" },
+        "bombAnimation": {
+          "description": "Unnecessary property added by rendering."
+        }
       },
       "required": [
         "time",

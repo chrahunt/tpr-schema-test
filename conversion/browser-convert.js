@@ -182,6 +182,12 @@ var Convert = {
       x: Number(tile.x),
       y: Number(tile.y)
     };
+  },
+  end: function(end) {
+    return {
+      time: strToTime(end.time),
+      winner: end.winner
+    };
   }
 };
 
@@ -202,6 +208,9 @@ function get_data(name, data) {
   parsed.map = data.map;
   parsed.dynamicTiles = data.floorTiles.map(Convert.floorTile);
   parsed.endTimes = Convert.gameEndsAt(data.gameEndsAt);
+  if (data.end) {
+    parsed.gameEnd = Convert.end(data.end);
+  }
 
   // Players.
   parsed.players = {};
